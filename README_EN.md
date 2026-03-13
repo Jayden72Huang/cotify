@@ -1,16 +1,18 @@
-# 🔔 voice-notify
+<div align="center">
 
-**English** | **[中文](README.md)**
+# 🔔 Cotify
 
-> Make Claude Code speak — task completion, errors, agent check-in, all with voice notifications to keep you in the flow.
+**Make Claude Code speak — task completion, errors, agent check-in, all with voice notifications to keep you in the flow.**
 
 [![macOS](https://img.shields.io/badge/macOS-12%2B-blue?logo=apple)](https://www.apple.com/macos/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-<p align="center">
-  <img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
-</p>
+[Quick Start](#quick-start) · [中文](README.md) · [Features](#core-features) · [Agent Team](#agent-team-scenario)
+
+<img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
+
+</div>
 
 ---
 

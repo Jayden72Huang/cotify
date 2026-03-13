@@ -1,16 +1,18 @@
-# 🔔 voice-notify
+<div align="center">
 
-**[English](README_EN.md)** | **中文**
+# 🔔 Cotify
 
-> 让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。
+**让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。**
 
 [![macOS](https://img.shields.io/badge/macOS-12%2B-blue?logo=apple)](https://www.apple.com/macos/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-<p align="center">
-  <img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
-</p>
+[快速开始](#快速开始) · [English](README_EN.md) · [核心特性](#核心特性) · [Agent 团队](#agent-团队场景)
+
+<img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
+
+</div>
 
 ---
 
