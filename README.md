@@ -1,5 +1,7 @@
 # 🔔 voice-notify
 
+**[English](README_EN.md)** | **中文**
+
 > 让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。
 
 [![macOS](https://img.shields.io/badge/macOS-12%2B-blue?logo=apple)](https://www.apple.com/macos/)
@@ -198,7 +200,9 @@ Flags:
 ```
 voice-notify/
 ├── SKILL.md              # Claude Code skill 配置
-├── README.md             # 本文件
+├── README.md             # 中文文档
+├── README_EN.md          # English docs
+├── LICENSE               # MIT License
 └── scripts/
     ├── voice.sh          # TTS 播报核心脚本
     ├── sfx.sh            # 系统音效脚本

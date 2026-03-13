@@ -18,8 +18,8 @@
   --accent:#ffffff;
   --border:rgba(255, 255, 255, 0.08);
   --subtle-bg:rgba(255, 255, 255, 0.02);
-  --purple:#7c3aed;
-  --cyan:#0891b2;
+  --purple:#a78bfa;
+  --cyan:#22d3ee;
 }
 html{scroll-behavior:smooth}
 body{
@@ -52,13 +52,14 @@ nav {
   z-index: 1000;
 }
 .logo{font-weight:800;font-size:20px;letter-spacing:-0.03em;display:flex;align-items:center;gap:4px; color: #fff; margin-left: 24px;}
-.logo span{color: var(--cyan);}
+.logo{transition:all .3s;-webkit-background-clip:text;background-clip:text;}
+.logo:hover{background:linear-gradient(to right,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 nav .links{display:flex;gap:32px;font-size:14px;font-weight:500;color:rgba(255,255,255,0.6); margin: 0 auto;}
 .nav-right { display: flex; align-items: center; gap: 12px; margin-right: 8px; }
 .lang-switch {
   background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-  color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s;
+  color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 16px;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; padding: 0;
 }
 .lang-switch:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 .nav-cta{
@@ -68,7 +69,7 @@ nav .links{display:flex;gap:32px;font-size:14px;font-weight:500;color:rgba(255,2
 
 /* ── HERO ── */
 .hero{
-  padding-top:160px;padding-bottom:120px;text-align:center;
+  padding-top:200px;padding-bottom:80px;text-align:center;
   position: relative; overflow: hidden; background: var(--bg);
 }
 #orb-canvas {
@@ -123,7 +124,9 @@ h1{
 }
 
 .comp-header { margin-bottom: 32px; }
-.comp-header .tag { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.4; display: block; margin-bottom: 8px; }
+.comp-header .tag { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px; padding: 6px 14px; border-radius: 8px; }
+.comp-card.before .tag { color: #ef4444; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); opacity: 1; }
+.comp-card.after .tag { color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.25); opacity: 1; }
 .comp-header h3 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
 .comp-header p { font-size: 16px; opacity: 0.5; line-height: 1.5; }
 
@@ -162,6 +165,9 @@ h1{
   border: 1px solid var(--border); border-radius: 48px; margin-bottom: 150px;
   display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; padding: 80px;
 }
+.stack-card.gradient-purple { border-color: rgba(167, 139, 250, 0.4); background: linear-gradient(135deg, rgba(167, 139, 250, 0.18) 0%, rgba(167, 139, 250, 0.06) 40%, rgba(15, 15, 20, 0.9) 80%); box-shadow: inset 0 1px 0 rgba(167, 139, 250, 0.15), 0 0 80px rgba(167, 139, 250, 0.06); }
+.stack-card.gradient-cyan { border-color: rgba(34, 211, 238, 0.4); background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(34, 211, 238, 0.06) 40%, rgba(15, 15, 20, 0.9) 80%); box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.15), 0 0 80px rgba(34, 211, 238, 0.06); }
+.stack-card.gradient-mix { border-color: rgba(167, 139, 250, 0.3); background: linear-gradient(135deg, rgba(167, 139, 250, 0.16) 0%, rgba(34, 211, 238, 0.12) 35%, rgba(15, 15, 20, 0.9) 75%); box-shadow: inset 0 1px 0 rgba(167, 139, 250, 0.12), 0 0 80px rgba(34, 211, 238, 0.05); }
 .stack-content h2 { font-size: 56px; font-weight: 800; margin-bottom: 24px; }
 .stack-content p { font-size: 20px; color: var(--text-dim); }
 .stack-visual { background: rgba(255, 255, 255, 0.02); border-radius: 32px; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border); }
@@ -207,7 +213,14 @@ h1{
 .demo-btn{ display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; border-radius: 16px; font-size: 14px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all .2s; }
 .demo-btn:hover{ background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
 
-footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-muted); border-top: 1px solid var(--border) }
+footer{ padding: 60px 24px 40px; text-align: center; font-size: 14px; color: var(--text-muted); border-top: 1px solid var(--border); }
+.footer-inner { max-width: 960px; margin: 0 auto; }
+.footer-logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; background: linear-gradient(to right, var(--purple), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+.footer-links a { color: var(--text-dim); text-decoration: none; transition: color 0.3s; font-size: 14px; }
+.footer-links a:hover { color: #fff; }
+.footer-divider { width: 80px; height: 1px; background: linear-gradient(to right, var(--purple), var(--cyan)); margin: 20px auto; opacity: 0.4; }
+.footer-copy { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
 /* Mockups */
 .mockup-ui { background: #000; width: 85%; padding: 40px; border-radius: 24px; border: 1px solid var(--border); position: relative; }
@@ -215,11 +228,73 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
 .mock-line.short { width: 60%; }
 .chat-bubble { background: #fff; color: #000; padding: 16px 24px; border-radius: 20px 20px 20px 4px; font-weight: 700; font-size: 15px; position: absolute; top: -30px; right: -30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
+/* ── HOW IT WORKS ── */
+.how-section { padding: 120px 0; }
+.how-header { text-align: center; margin-bottom: 64px; }
+.how-header h2 { font-size: 48px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 16px; }
+.how-header p { font-size: 18px; color: var(--text-dim); max-width: 520px; margin: 0 auto; }
+.how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.how-step {
+  text-align: center; padding: 48px 32px 40px; border-radius: 24px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  position: relative; transition: all 0.3s;
+}
+.how-step:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); transform: translateY(-4px); }
+.step-num {
+  width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; margin: 0 auto 28px;
+  background: linear-gradient(135deg, var(--purple), var(--cyan)); color: #000;
+}
+.how-step h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.how-step p { font-size: 15px; color: var(--text-dim); line-height: 1.7; }
+.how-step code {
+  display: inline-block; margin-top: 20px; padding: 10px 20px; border-radius: 10px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  font-family: 'SF Mono', monospace; font-size: 13px; color: var(--cyan);
+}
+.how-step code.copyable { cursor: pointer; position: relative; transition: all 0.2s; padding-right: 40px; }
+.how-step code.copyable::after { content: '📋'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; opacity: 0.4; transition: opacity 0.2s; }
+.how-step code.copyable:hover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.08); }
+.how-step code.copyable:hover::after { opacity: 0.8; }
+.how-step code.copyable.copied { border-color: #22c55e; }
+.how-step code.copyable.copied::after { content: '✓'; color: #22c55e; opacity: 1; }
+@media(max-width:1024px){ .how-steps { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
+
+/* ── HERO LAYOUT ── */
+.hero-grid { display: inline-flex; align-items: center; gap: 220px; }
+.hero-left { flex-shrink: 0; }
+.hero-right { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+/* ── SOUND WAVE ── */
+.sound-wave {
+  display: flex; align-items: center; gap: 10px; height: 220px;
+}
+.sound-wave .bar {
+  width: 10px; border-radius: 99px;
+  background: linear-gradient(to top, var(--purple), var(--cyan));
+  animation: wave 1.2s ease-in-out infinite;
+}
+.sound-wave .bar:nth-child(1) { height: 30%; animation-delay: 0s; }
+.sound-wave .bar:nth-child(2) { height: 50%; animation-delay: 0.1s; }
+.sound-wave .bar:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+.sound-wave .bar:nth-child(4) { height: 100%; animation-delay: 0.3s; }
+.sound-wave .bar:nth-child(5) { height: 70%; animation-delay: 0.4s; }
+.sound-wave .bar:nth-child(6) { height: 100%; animation-delay: 0.2s; }
+.sound-wave .bar:nth-child(7) { height: 80%; animation-delay: 0.35s; }
+.sound-wave .bar:nth-child(8) { height: 50%; animation-delay: 0.15s; }
+.sound-wave .bar:nth-child(9) { height: 30%; animation-delay: 0.05s; }
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .comparison-grid { grid-template-columns: 1fr; }
   .stack-card { grid-template-columns: 1fr; padding: 48px; text-align: center; }
   nav .links { display: none; }
+  .hero-grid { flex-direction: column; }
+  .hero-right { display: none; }
 }
 </style>
 </head>
@@ -227,14 +302,14 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
 
 <nav>
   <div class="inner" style="display:flex; align-items:center; width:100%;">
-    <a href="#" class="logo">Cotify<span>.</span></a>
+    <a href="#" class="logo">Cotify.</a>
     <div class="links">
       <a href="#features"><span class="lang-zh">功能</span><span class="lang-en">Features</span></a>
       <a href="#demo"><span class="lang-zh">演示</span><span class="lang-en">Demo</span></a>
       <a href="#install"><span class="lang-zh">安装</span><span class="lang-en">Install</span></a>
     </div>
     <div class="nav-right">
-      <button class="lang-switch" id="lang-btn" onclick="toggleLang()">ZH / EN</button>
+      <button class="lang-switch" id="lang-btn" onclick="toggleLang()" title="切换语言 / Switch Language">🌐</button>
       <a href="#install" class="nav-cta"><span class="lang-zh">立即开始</span><span class="lang-en">Get Started</span></a>
     </div>
   </div>
@@ -243,25 +318,42 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
 <section class="hero">
   <canvas id="orb-canvas"></canvas>
   <div class="container">
-    <div class="lang-zh" style="text-align: left; max-width: 900px; margin: 0 auto 32px;">
-      <h1 style="margin: 0; line-height: 1.1;">只管听，</h1>
-      <h1 style="margin: 0; line-height: 1.1;">不用<span class="highlight">盯着看</span></h1>
-      <h1 style="margin: 0; line-height: 1.1; opacity: 0; pointer-events: none;">Placeholder</h1>
-    </div>
-    <div class="lang-en" style="text-align: left; max-width: 900px; margin: 0 auto 32px;">
-      <h1 style="margin: 0; line-height: 1.1;">
-        <span style="background: linear-gradient(to bottom, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">C</span>ode anytime,
-      </h1>
-      <h1 style="margin: 0; line-height: 1.1;">
-        V<span style="background: linear-gradient(to bottom, #fff, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">o</span>ice help 
-      </h1>
-      <h1 style="margin: 0; line-height: 1.1;">
-        No<span style="background: linear-gradient(to bottom, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">tify</span> progress
-      </h1>
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="lang-zh" style="text-align: left;">
+          <h1 style="margin: 0; line-height: 1.1;"><span style="background:linear-gradient(to right,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Cotify</span> 让你</h1>
+          <h1 style="margin: 0; line-height: 1.1;">随时<span style="background:linear-gradient(to right,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">听见</span></h1>
+          <h1 style="margin: 0; line-height: 1.1;">开发进度<span style="background:linear-gradient(to right,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">声音</span></h1>
+        </div>
+        <div class="lang-en" style="text-align: left;">
+          <h1 style="margin: 0; line-height: 1.1;">
+            <span style="background:linear-gradient(to right,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">C</span>ode anytime,
+          </h1>
+          <h1 style="margin: 0; line-height: 1.1;">
+            V<span style="background:linear-gradient(to right,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">o</span>ice help
+          </h1>
+          <h1 style="margin: 0; line-height: 1.1;">
+            No<span style="background:linear-gradient(to right,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">tify</span> progress
+          </h1>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="sound-wave">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
     </div>
     
-    <p class="subtitle lang-zh">为 Claude Code 量身定制的语音反馈系统。任务完成、构建通过、环境就绪——无需盯着屏幕，听见即所得。</p>
-    <p class="subtitle lang-en" style="max-width: 800px;">Tailored voice feedback for Claude Code. Task completed, build passed, environment ready—get instant updates without staring at the screen.</p>
+    <p class="subtitle lang-zh" style="margin-top: 48px;">为 Claude Code 量身定制的语音反馈系统。任务完成、构建通过、环境就绪——无需盯着屏幕，听见即所得。</p>
+    <p class="subtitle lang-en" style="max-width: 800px; margin-top: 48px;">Tailored voice feedback for Claude Code. Task completed, build passed, environment ready—get instant updates without staring at the screen.</p>
 
     <div class="cta-row">
       <div class="hero-copy-box" onclick="copyInstall()">
@@ -288,7 +380,7 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
     <!-- Before: Chaos -->
     <div class="comp-card before">
       <div class="comp-header">
-        <span class="tag">Before Cotify</span>
+        <span class="tag lang-zh">使用Cotify前</span><span class="tag lang-en">Before Cotify</span>
         <h3 class="lang-zh">监控压力</h3>
         <h3 class="lang-en">Monitoring Stress</h3>
         <p class="lang-zh">在多 Agent 环境下，你不得不时刻紧盯屏幕，在无数滚动日志中捕捉关键状态。</p>
@@ -307,14 +399,14 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
         </div>
       </div>
       <div class="comp-footer-stats">
-        <div class="stat-item"><span class="val">High</span><span class="lbl">Eyes Stress</span></div>
+        <div class="stat-item"><span class="val lang-zh">高</span><span class="val lang-en">High</span><span class="lbl lang-zh">视觉压力</span><span class="lbl lang-en">Eyes Stress</span></div>
       </div>
     </div>
 
     <!-- After: Flow -->
     <div class="comp-card after">
       <div class="comp-header">
-        <span class="tag" style="color: var(--cyan); opacity: 1;">With Cotify</span>
+        <span class="tag lang-zh">使用后</span><span class="tag lang-en">With Cotify</span>
         <h3 class="lang-zh">身临其境</h3>
         <h3 class="lang-en">Immersive Flow</h3>
         <p class="lang-zh">Cotify 成为你的听觉代理。无论 Agent 状态如何变换，你只需专注思考，声音会告诉你一切。</p>
@@ -322,20 +414,83 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
       </div>
       <div class="flow-ui">
         <div class="living-orb"></div>
-        <div style="margin-top: 24px; color: #fff; font-weight: 700; font-size: 18px;">"✨ Agent-B 已就绪"</div>
+        <div class="lang-zh" style="margin-top: 24px; color: #fff; font-weight: 700; font-size: 18px;">"✨ Agent-B 已就绪"</div>
+        <div class="lang-en" style="margin-top: 24px; color: #fff; font-weight: 700; font-size: 18px;">"✨ Agent-B is ready"</div>
       </div>
       <div class="comp-footer-stats">
-        <div class="stat-item"><span class="val">0%</span><span class="lbl">Visual Load</span></div>
-        <div class="stat-item"><span class="val">+2hr</span><span class="lbl">Flow Duration</span></div>
+        <div class="stat-item"><span class="val">0%</span><span class="lbl lang-zh">视觉负担</span><span class="lbl lang-en">Visual Load</span></div>
+        <div class="stat-item"><span class="val">+2hr</span><span class="lbl lang-zh">心流时长</span><span class="lbl lang-en">Flow Duration</span></div>
       </div>
     </div>
   </div>
 </section>
 
+<section id="demo" class="terminal-section">
+  <div style="text-align: center; margin-bottom: 48px;">
+    <h2 class="lang-zh" style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em;">在线体验</h2>
+    <h2 class="lang-en" style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em;">Live Demo</h2>
+    <p class="lang-zh" style="color: var(--text-dim); margin-top: 16px; font-size: 18px;">点击下方按钮，即刻试听 Cotify 的语音播报效果</p>
+    <p class="lang-en" style="color: var(--text-dim); margin-top: 16px; font-size: 18px;">Click the buttons below to hear Cotify's voice notifications in action</p>
+  </div>
+  <div class="terminal">
+    <div class="terminal-header"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div><div class="t-title">Cotify Console</div></div>
+    <div class="terminal-body" id="termBody">
+      <div class="line" style="color:var(--text-muted)">$ <span class="lang-zh">准备就绪。</span><span class="lang-en">Ready. Select a demo.</span></div>
+    </div>
+    <div class="demo-controls">
+      <button class="demo-btn" onclick="demo('checkin')">👋 <span class="lang-zh">Agent 报到</span><span class="lang-en">Agent Check-in</span></button>
+      <button class="demo-btn" onclick="demo('success')">✅ <span class="lang-zh">构建成功</span><span class="lang-en">Build Success</span></button>
+      <button class="demo-btn" onclick="demo('error')">🚨 <span class="lang-zh">错误警报</span><span class="lang-en">Error Alert</span></button>
+      <button class="demo-btn" onclick="demo('progress')">📈 <span class="lang-zh">进度播报</span><span class="lang-en">Progress</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="install" class="how-section container">
+  <div class="how-header">
+    <h2 class="lang-zh">三步开启语音陪伴</h2>
+    <h2 class="lang-en">How It Works</h2>
+    <p class="lang-zh">无需复杂配置，几分钟即可让你的 Agent 开口说话</p>
+    <p class="lang-en">No complex setup — get your Agent talking in minutes</p>
+  </div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-num">1</div>
+      <h3 class="lang-zh">安装 Skill</h3>
+      <h3 class="lang-en">Install Skill</h3>
+      <p class="lang-zh">在 Claude Code 中一行命令即可安装，零依赖，基于 macOS 原生语音引擎。</p>
+      <p class="lang-en">One command in Claude Code. Zero dependencies, powered by macOS native TTS.</p>
+      <code class="copyable" onclick="copyCode(this)">/skills add voice-notify</code>
+    </div>
+    <div class="how-step">
+      <div class="step-num">2</div>
+      <h3 class="lang-zh">首次配置</h3>
+      <h3 class="lang-en">Quick Setup</h3>
+      <p class="lang-zh">运行 setup 脚本，自动检测环境并下载高质量中文语音（莉莉 Premium）。</p>
+      <p class="lang-en">Run setup script to detect environment and download premium Chinese voice (Lili Premium).</p>
+      <code class="copyable" onclick="copyCode(this)">bash setup.sh</code>
+    </div>
+    <div class="how-step">
+      <div class="step-num">3</div>
+      <h3 class="lang-zh">开始编码</h3>
+      <h3 class="lang-en">Start Coding</h3>
+      <p class="lang-zh">Agent 报到、构建通过、错误告警——全部自动语音播报，你只需专注写代码。</p>
+      <p class="lang-en">Agent check-in, build pass, error alerts — all voiced automatically. Just focus on coding.</p>
+      <code class="copyable" onclick="copyCode(this)">vn normal</code>
+    </div>
+  </div>
+</section>
+
 <section id="features" class="container">
+  <div style="text-align: center; margin-bottom: 80px;">
+    <h2 class="lang-zh" style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em;">主要功能</h2>
+    <h2 class="lang-en" style="font-size: 48px; font-weight: 800; letter-spacing: -0.04em;">Key Features</h2>
+    <p class="lang-zh" style="color: var(--text-dim); margin-top: 16px; font-size: 18px;">三大核心能力，让你的开发体验焕然一新</p>
+    <p class="lang-en" style="color: var(--text-dim); margin-top: 16px; font-size: 18px;">Three core capabilities to transform your development experience</p>
+  </div>
   <div class="features-stack">
     <!-- Card 1 -->
-    <div class="stack-card">
+    <div class="stack-card gradient-purple">
       <div class="stack-content">
         <h2 class="lang-zh">智能情感播报</h2>
         <h2 class="lang-en">Emotional Voice</h2>
@@ -352,7 +507,7 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
     </div>
 
     <!-- Card 2 -->
-    <div class="stack-card">
+    <div class="stack-card gradient-cyan">
       <div class="stack-content">
         <h2 class="lang-zh">全局时段感知</h2>
         <h2 class="lang-en">Time Awareness</h2>
@@ -369,7 +524,7 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
     </div>
 
     <!-- Card 3 -->
-    <div class="stack-card">
+    <div class="stack-card gradient-mix">
       <div class="stack-content">
         <h2 class="lang-zh">零配置本地化</h2>
         <h2 class="lang-en">Local & Secure</h2>
@@ -391,36 +546,46 @@ footer{ padding: 80px 0; text-align: center; font-size: 15px; color: var(--text-
   </div>
 </section>
 
-<section id="demo" class="terminal-section">
-  <div class="terminal">
-    <div class="terminal-header"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div><div class="t-title">Cotify Console</div></div>
-    <div class="terminal-body" id="termBody">
-      <div class="line" style="color:var(--text-muted)">$ <span class="lang-zh">准备就绪。</span><span class="lang-en">Ready. Select a demo.</span></div>
-    </div>
-    <div class="demo-controls">
-      <button class="demo-btn" onclick="demo('checkin')">👋 <span class="lang-zh">Agent 报到</span><span class="lang-en">Agent Check-in</span></button>
-      <button class="demo-btn" onclick="demo('success')">✅ <span class="lang-zh">构建成功</span><span class="lang-en">Build Success</span></button>
-      <button class="demo-btn" onclick="demo('error')">🚨 <span class="lang-zh">错误提示</span><span class="lang-en">Error Alert</span></button>
-      <button class="demo-btn" onclick="demo('progress')">📈 <span class="lang-zh">进度播报</span><span class="lang-en">Progress</span></button>
-    </div>
-  </div>
-</section>
-
 <section class="vision-section">
   <div class="vision-card">
     <div class="vision-bg-blur"></div>
     <div class="vision-content">
-      <h2 class="vision-title lang-zh">让代码倾听，让思绪流淌</h2>
+      <h2 class="vision-title lang-zh">让进度发声，让效率起飞</h2>
       <h2 class="vision-title lang-en">Let Code Listen, Let Thoughts Flow</h2>
-      <p class="vision-subtitle lang-zh">摆脱屏幕的视觉束缚，释放你的注意力。让思考快于打字，让开发如行云流水。</p>
-      <p class="vision-subtitle lang-en">Free yourself from terminal windows. Think faster than you type, and let development flow like water.</p>
+      <div style="margin: 20px 0;">
+        <p class="vision-subtitle lang-zh" style="margin-bottom:0;line-height:1.7;">
+          摆脱屏幕的视觉束缚，释放你的注意力。
+        </p>
+        <p class="vision-subtitle lang-zh" style="margin-top:0;line-height:1.7;">
+          让进度可被追踪，让开发如行云流水。
+        </p>
+        <p class="vision-subtitle lang-en" style="margin-bottom:0;line-height:1.7;">
+          Free yourself from terminal windows. Think faster than you type.
+        </p>
+        <p class="vision-subtitle lang-en" style="margin-top:0;line-height:1.7;">
+          Let development flow like water.
+        </p>
+      </div>
       <button class="btn-vision" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})"><span class="lang-zh">立即开启</span><span class="lang-en">Start Now</span></button>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2026 Cotify · <span class="lang-zh">基于 Claude Code</span><span class="lang-en">Built with Claude Code</span></p>
+  <div class="footer-inner">
+    <div class="footer-logo">Cotify</div>
+    <div class="footer-links">
+      <a href="#install"><span class="lang-zh">快速安装</span><span class="lang-en">Install</span></a>
+      <a href="#demo"><span class="lang-zh">在线体验</span><span class="lang-en">Demo</span></a>
+      <a href="https://github.com" target="_blank">GitHub</a>
+      <a href="https://claude.ai" target="_blank">Claude Code</a>
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">
+      &copy; 2026 Cotify · <span class="lang-zh">基于 Claude Code 构建的语音通知系统</span><span class="lang-en">Voice notification system built for Claude Code</span>
+      <br><span class="lang-zh">用声音连接你与 AI Agent</span><span class="lang-en">Connecting you with AI Agents through sound</span>
+    </p>
+  </div>
 </footer>
 
 <script>
@@ -429,7 +594,7 @@ let currentLang = 'zh';
 function toggleLang() {
   currentLang = currentLang === 'zh' ? 'en' : 'zh';
   document.getElementById('html-root').setAttribute('lang', currentLang === 'en' ? 'en' : 'zh-CN');
-  document.getElementById('lang-btn').innerText = currentLang === 'zh' ? 'ZH / EN' : 'EN / 中';
+  // icon stays the same, just toggle content
 }
 
 // Background Orb
@@ -449,22 +614,74 @@ window.addEventListener('resize', resize);
 resize(); initBlobs(); animate();
 
 // Audio & Demo
+function copyCode(el) {
+  navigator.clipboard.writeText(el.textContent.trim());
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 1500);
+}
 function speak(text, lang) { const u = new SpeechSynthesisUtterance(text); u.lang = lang === 'en' ? 'en-US' : 'zh-CN'; speechSynthesis.speak(u); }
 function addLine(html) { const term = document.getElementById('termBody'); const div = document.createElement('div'); div.innerHTML = html; term.appendChild(div); term.scrollTop = term.scrollHeight; }
+function typeLines(lines, cb) {
+  let i = 0;
+  function next() {
+    if (i < lines.length) { addLine(lines[i]); i++; setTimeout(next, 400); }
+    else if (cb) cb();
+  }
+  next();
+}
 async function demo(type) {
   const isEn = currentLang === 'en';
+  const c = (t,color) => '<span style="color:' + color + '">' + t + '</span>';
+  const dim = t => c(t, 'var(--text-muted)');
+  const purple = t => c(t, 'var(--purple)');
+  const cyan = t => c(t, 'var(--cyan)');
+  const red = t => c(t, '#ef4444');
+  const green = t => c(t, '#22c55e');
+
   if (type === 'checkin') {
-    const msg = isEn ? "Ready to help, boss!" : "老板，我已经准备好了！";
-    addLine('<span style="color:var(--purple)">$ vn checkin</span>'); addLine('♪ "' + msg + '"'); speak(msg, currentLang);
+    const msg = isEn ? "Boss, Developer is online and reporting for duty!" : "老板，开发者已上线，向您报到！";
+    typeLines([
+      dim('# Agent joins the team session'),
+      purple('$ bash sfx.sh checkin'),
+      dim('♪ [Morse sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Boss, Developer online!' : '老板，开发者已上线，向您报到！') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=normal --queue --time-aware'),
+      '',
+      green('&gt; ') + '🎙 "' + msg + '"',
+    ], () => speak(msg, currentLang));
   } else if (type === 'success') {
-    const msg = isEn ? "Build success!" : "太棒了！构建成功！";
-    addLine('<span style="color:var(--purple)">$ vn "Build Success"</span>'); speak(msg, currentLang);
+    const msg = isEn ? "Awesome! Build passed, everything looks good!" : "太棒了！构建通过，一切正常！";
+    typeLines([
+      dim('# Build / test passes'),
+      purple('$ bash sfx.sh success'),
+      dim('♪ [Glass sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Build passed!' : '构建通过，一切正常') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=celebrate'),
+      '',
+      green('&gt; ') + '🎙 "' + msg + '"',
+    ], () => speak(msg, currentLang));
   } else if (type === 'error') {
-    const msg = isEn ? "Warning! Error detected!" : "警告！检测到错误！";
-    addLine('<span style="color:#ef4444">$ vn "Error Detected"</span>'); speak(msg, currentLang);
+    const msg = isEn ? "Warning! Error detected, please check!" : "注意！检测到错误，请检查！";
+    typeLines([
+      dim('# Error detected during execution'),
+      red('$ bash sfx.sh error'),
+      dim('♪ [Sosumi sound]'),
+      red('$ bash voice.sh "' + (isEn ? 'Error detected' : '出现错误，请检查') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=alert --no-filler'),
+      '',
+      red('&gt; ') + '🎙 "' + msg + '"',
+    ], () => speak(msg, currentLang));
   } else if (type === 'progress') {
-    const msg = isEn ? "Tasks completed: 75%" : "任务已完成 75%";
-    addLine('<span style="color:var(--cyan)">$ vn progress</span>'); speak(msg, currentLang);
+    const msg = isEn ? "Completed 5 of 7 tasks, keep going!" : "已完成5项，共7项，再坚持一下！";
+    typeLines([
+      dim('# Progress narration during workflow'),
+      cyan('$ bash sfx.sh coin'),
+      dim('♪ [Pop sound]'),
+      cyan('$ bash voice.sh "' + (isEn ? '5 of 7 done, keep going!' : '已完成5项，共7项，再坚持一下') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=encourage --queue --debounce=10'),
+      '',
+      green('&gt; ') + '🎙 "' + msg + '"',
+    ], () => speak(msg, currentLang));
   }
 }
 function playClickSound() {
