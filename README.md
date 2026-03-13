@@ -8,6 +8,10 @@
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+<p align="center">
+  <img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
+</p>
+
 ---
 
 ## 它能做什么
