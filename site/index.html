@@ -446,9 +446,11 @@ footer{ padding: 60px 24px 40px; text-align: center; font-size: 14px; color: var
     </div>
     <div class="demo-controls">
       <button class="demo-btn" onclick="demo('checkin')">👋 <span class="lang-zh">Agent 报到</span><span class="lang-en">Agent Check-in</span></button>
-      <button class="demo-btn" onclick="demo('success')">✅ <span class="lang-zh">构建成功</span><span class="lang-en">Build Success</span></button>
-      <button class="demo-btn" onclick="demo('error')">🚨 <span class="lang-zh">错误警报</span><span class="lang-en">Error Alert</span></button>
+      <button class="demo-btn" onclick="demo('summary')">✅ <span class="lang-zh">任务完成摘要</span><span class="lang-en">Task Summary</span></button>
+      <button class="demo-btn" onclick="demo('permission')">🔐 <span class="lang-zh">工具授权确认</span><span class="lang-en">Tool Permission</span></button>
+      <button class="demo-btn" onclick="demo('error')">🤫 <span class="lang-zh">错误静默</span><span class="lang-en">Silent Error</span></button>
       <button class="demo-btn" onclick="demo('progress')">📈 <span class="lang-zh">进度播报</span><span class="lang-en">Progress</span></button>
+      <button class="demo-btn" onclick="demo('latenight')">🌙 <span class="lang-zh">深夜关怀</span><span class="lang-en">Late Night</span></button>
     </div>
   </div>
 </section>
@@ -656,28 +658,52 @@ async function demo(type) {
       '',
       green('&gt; ') + '🎙 "' + msg + '"',
     ], () => speak(msg, currentLang));
-  } else if (type === 'success') {
-    const msg = isEn ? "Awesome! Build passed, everything looks good!" : "太棒了！构建通过，一切正常！";
+  } else if (type === 'summary') {
+    const msg = isEn ? "Awesome! Login page refactoring complete. 2 errors occurred and resolved." : "太棒了！已完成登录页面重构。过程中出现2个错误，已解决。";
     typeLines([
-      dim('# Build / test passes'),
+      dim('# Task complete — on-stop.sh reads summary + error count'),
+      green('$ cat /tmp/voice_notify_summary'),
+      dim('&nbsp;&nbsp;' + (isEn ? '"Login page refactoring complete"' : '"已完成登录页面重构"')),
+      green('$ cat /tmp/voice_notify_error_count'),
+      dim('&nbsp;&nbsp;2'),
       purple('$ bash sfx.sh success'),
       dim('♪ [Glass sound]'),
-      purple('$ bash voice.sh "' + (isEn ? 'Build passed!' : '构建通过，一切正常') + '" \\'),
-      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=celebrate'),
+      purple('$ bash voice.sh "' + (isEn ? 'Login page refactoring complete. 2 errors resolved' : '已完成登录页面重构。过程中出现2个错误，已解决') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=celebrate --time-aware'),
       '',
       green('&gt; ') + '🎙 "' + msg + '"',
     ], () => speak(msg, currentLang));
-  } else if (type === 'error') {
-    const msg = isEn ? "Warning! Error detected, please check!" : "注意！检测到错误，请检查！";
+  } else if (type === 'permission') {
+    const msg = isEn ? "Hey! Tool permission needed, please approve." : "老板，有工具需要授权，请过来确认！";
     typeLines([
-      dim('# Error detected during execution'),
-      red('$ bash sfx.sh error'),
-      dim('♪ [Sosumi sound]'),
-      red('$ bash voice.sh "' + (isEn ? 'Error detected' : '出现错误，请检查') + '" \\'),
+      dim('# Agent blocked — waiting for tool use permission'),
+      red('┌─────────────────────────────────────────┐'),
+      red('│ ' + c('Tool use', '#fbbf24') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      red('│ github — Merge pull request (MCP)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      red('│ Do you want to proceed?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      red('│ &gt; 1. Yes&nbsp;&nbsp;2. Yes, don\'t ask&nbsp;&nbsp;3. No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      red('└─────────────────────────────────────────┘'),
+      '',
+      dim('# Notification hook fires automatically'),
+      red('$ bash sfx.sh warning'),
+      dim('♪ [Basso sound] × 2'),
+      red('$ bash voice.sh "' + (isEn ? 'Tool permission needed' : '老板，有工具需要授权，请过来确认') + '" \\'),
       dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=alert --no-filler'),
       '',
       red('&gt; ') + '🎙 "' + msg + '"',
     ], () => speak(msg, currentLang));
+  } else if (type === 'error') {
+    typeLines([
+      dim('# Tool execution failed — agent still running'),
+      red('✗ PostToolUseFailure: Bash command failed'),
+      '',
+      dim('# on-error.sh: silently record, no voice alert'),
+      dim('$ echo 1 &gt; /tmp/voice_notify_error_count'),
+      dim(isEn ? '# Agent handles it automatically — no interruption' : '# Agent 自行处理 — 不打扰用户'),
+      '',
+      green('✓ ') + dim(isEn ? 'Error silenced. Agent retries and fixes it.' : '错误已静默。Agent 自行重试并修复。'),
+      dim(isEn ? '# Errors reported at task completion (see Task Summary)' : '# 错误将在任务完成时统一汇报（见任务完成摘要）'),
+    ]);
   } else if (type === 'progress') {
     const msg = isEn ? "Completed 5 of 7 tasks, keep going!" : "已完成5项，共7项，再坚持一下！";
     typeLines([
@@ -686,6 +712,21 @@ async function demo(type) {
       dim('♪ [Pop sound]'),
       cyan('$ bash voice.sh "' + (isEn ? '5 of 7 done, keep going!' : '已完成5项，共7项，再坚持一下') + '" \\'),
       dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=encourage --queue --debounce=10'),
+      '',
+      green('&gt; ') + '🎙 "' + msg + '"',
+    ], () => speak(msg, currentLang));
+  } else if (type === 'latenight') {
+    const msg = isEn ? "It's late. Database migration complete." : "这么晚啊，数据库迁移已完成。";
+    typeLines([
+      dim('# Time-aware greeting — detected 01:30 AM'),
+      dim('$ date +%H'),
+      dim('&nbsp;&nbsp;01'),
+      '',
+      dim('# 22:00-05:00 → ' + (isEn ? '"It\'s late"' : '"这么晚啊"') + ' prefix'),
+      purple('$ bash sfx.sh success'),
+      dim('♪ [Glass sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Database migration complete' : '数据库迁移已完成') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=celebrate --time-aware'),
       '',
       green('&gt; ') + '🎙 "' + msg + '"',
     ], () => speak(msg, currentLang));
