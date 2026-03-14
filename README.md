@@ -8,7 +8,7 @@
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[快速开始](#快速开始) · [English](README_EN.md) · [核心特性](#核心特性) · [Agent 团队](#agent-团队场景) · [官网](https://cotify-app.vercel.app)
+[快速开始](#快速开始) · [English](README_EN.md) · [核心特性](#核心特性) · [Agent 团队](#agent-团队场景) · [官网](https://cotify.space/)
 
 <a href="https://cotify-app.vercel.app">
   <img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
