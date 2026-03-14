@@ -1,12 +1,9 @@
 #!/bin/bash
 # Hook: PostToolUseFailure — 工具执行失败时触发
-SKILL_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-VN_LANG="zh"
-[ -f "$HOME/.voice_notify_lang" ] && VN_LANG=$(cat "$HOME/.voice_notify_lang")
+# 静默：agent 运行中会自行解决，不打扰用户
+# 仅记录错误计数，任务结束时由 on-stop.sh 汇报
 
-bash "$SKILL_DIR/scripts/sfx.sh" error &
-if [ "$VN_LANG" = "en" ]; then
-  bash "$SKILL_DIR/scripts/voice.sh" "An error occurred, please check" --preset=comfort --debounce=10 &
-else
-  bash "$SKILL_DIR/scripts/voice.sh" "出现错误，请检查" --preset=comfort --debounce=10 &
-fi
+ERROR_COUNT_FILE="/tmp/voice_notify_error_count"
+COUNT=0
+[ -f "$ERROR_COUNT_FILE" ] && COUNT=$(cat "$ERROR_COUNT_FILE" 2>/dev/null)
+echo $(( COUNT + 1 )) > "$ERROR_COUNT_FILE"

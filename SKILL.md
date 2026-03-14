@@ -204,11 +204,18 @@ bash SKILL_DIR/scripts/sfx.sh celebrate
 bash SKILL_DIR/scripts/voice.sh "老板，任务执行完毕，【summary】已完成" "Lili (Premium)" --preset=celebrate --time-aware
 ```
 
-### Error Alert（mode: full, milestone）
+### Error Alert
+
+错误完全静默 — agent 运行中会自行处理，不打扰用户。
+如果错误需要用户介入，Claude 会触发 Notification hook。
+
+### User Confirmation（最关键的提醒）
+
+当 agent 进程中断、等待用户手动确认时，会播放两次警告音效 + 语音提醒：
 
 ```bash
-bash SKILL_DIR/scripts/sfx.sh error
-bash SKILL_DIR/scripts/voice.sh "出现错误，请检查" "Lili (Premium)" --preset=alert --no-filler
+# Notification hook 自动触发
+# 「老板，需要您手动确认，请过来看看」
 ```
 
 ### Build/Test Pass（mode: full, milestone）
@@ -288,6 +295,14 @@ vn status   # 查看当前模式
 
 ## Rules
 
+- **任务完成摘要（必做）**：每次任务完成时，在最终回复之前，**必须**将一句话摘要写入临时文件，供 on-stop.sh 语音播报：
+  ```bash
+  echo "已完成XX功能的开发" > /tmp/voice_notify_summary
+  ```
+  - 摘要控制在 **20 个中文字以内**，只说完成了什么
+  - 示例："已完成登录页面重构"、"数据库迁移已完成"、"修复了支付接口的bug"
+  - on-stop.sh 会自动追加错误信息（如有），不需要在摘要中提及错误
+- **错误静默**：运行中的错误不播报，agent 自行处理。on-stop.sh 会在任务结束时自动汇报错误计数
 - **防打断**：多 Agent 场景下播报均加 `--queue`，确保顺序播出
 - **防轰炸**：进度类消息加 `--debounce=N`，避免刷屏式播报
 - **错误用 `--no-filler`**：严肃消息不需要语气词，保持清晰
