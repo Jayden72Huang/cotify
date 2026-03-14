@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🔔 Cotify
+# 🔔 Cotify：voice-notify skill
 
-**让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。**
+**让 Claude Code 开口说话主动汇报的skills——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。**
 
 [![macOS](https://img.shields.io/badge/macOS-12%2B-blue?logo=apple)](https://www.apple.com/macos/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
