@@ -639,6 +639,8 @@ function typeLines(lines, cb) {
   next();
 }
 async function demo(type) {
+  const term = document.getElementById('termBody');
+  term.innerHTML = '';
   const isEn = currentLang === 'en';
   const c = (t,color) => '<span style="color:' + color + '">' + t + '</span>';
   const dim = t => c(t, 'var(--text-muted)');
@@ -646,6 +648,7 @@ async function demo(type) {
   const cyan = t => c(t, 'var(--cyan)');
   const red = t => c(t, '#ef4444');
   const green = t => c(t, '#22c55e');
+  const yellow = t => c(t, '#fbbf24');
 
   if (type === 'checkin') {
     const msg = isEn ? "Boss, Developer is online and reporting for duty!" : "老板，开发者已上线，向您报到！";
@@ -677,12 +680,12 @@ async function demo(type) {
     const msg = isEn ? "Hey! Tool permission needed, please approve." : "老板，有工具需要授权，请过来确认！";
     typeLines([
       dim('# Agent blocked — waiting for tool use permission'),
-      red('┌─────────────────────────────────────────┐'),
-      red('│ ' + c('Tool use', '#fbbf24') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
-      red('│ github — Merge pull request (MCP)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
-      red('│ Do you want to proceed?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
-      red('│ &gt; 1. Yes&nbsp;&nbsp;2. Yes, don\'t ask&nbsp;&nbsp;3. No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
-      red('└─────────────────────────────────────────┘'),
+      '',
+      yellow('┌─ Tool use ─────────────────────────────┐'),
+      yellow('│ github — Merge pull request (MCP)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('│ Do you want to proceed?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('│ &gt; 1. Yes&nbsp;&nbsp;2. Yes, don\'t ask&nbsp;&nbsp;3. No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('└─────────────────────────────────────────┘'),
       '',
       dim('# Notification hook fires automatically'),
       red('$ bash sfx.sh warning'),
@@ -690,20 +693,23 @@ async function demo(type) {
       red('$ bash voice.sh "' + (isEn ? 'Tool permission needed' : '老板，有工具需要授权，请过来确认') + '" \\'),
       dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=alert --no-filler'),
       '',
-      red('&gt; ') + '🎙 "' + msg + '"',
+      red('&gt; ') + '🔔 "' + msg + '"',
     ], () => speak(msg, currentLang));
   } else if (type === 'error') {
+    const msg = isEn ? "Error silenced. Agent handles it automatically. Errors will be reported when task completes." : "错误已静默，Agent 自行处理。任务完成时统一汇报。";
     typeLines([
       dim('# Tool execution failed — agent still running'),
       red('✗ PostToolUseFailure: Bash command failed'),
       '',
       dim('# on-error.sh: silently record, no voice alert'),
-      dim('$ echo 1 &gt; /tmp/voice_notify_error_count'),
-      dim(isEn ? '# Agent handles it automatically — no interruption' : '# Agent 自行处理 — 不打扰用户'),
+      dim('$ echo $((COUNT + 1)) &gt; /tmp/voice_notify_error_count'),
       '',
-      green('✓ ') + dim(isEn ? 'Error silenced. Agent retries and fixes it.' : '错误已静默。Agent 自行重试并修复。'),
-      dim(isEn ? '# Errors reported at task completion (see Task Summary)' : '# 错误将在任务完成时统一汇报（见任务完成摘要）'),
-    ]);
+      dim(isEn ? '# No sound, no voice — agent keeps working' : '# 无音效、无语音 — Agent 继续工作'),
+      dim(isEn ? '# Agent retries and fixes the error itself' : '# Agent 自行重试并修复错误'),
+      '',
+      green('✓ ') + (isEn ? 'Error count saved. Will report at task completion.' : '错误计数已记录。任务完成时统一汇报。'),
+      dim(isEn ? '# Try "Task Summary" demo to see the completion report' : '# 点击「任务完成摘要」查看完成时的汇报效果'),
+    ], () => speak(msg, currentLang));
   } else if (type === 'progress') {
     const msg = isEn ? "Completed 5 of 7 tasks, keep going!" : "已完成5项，共7项，再坚持一下！";
     typeLines([
