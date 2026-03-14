@@ -66,6 +66,40 @@ hr
 echo -e "${BOLD}  Voice Notify — 安装 Hooks${RESET}"
 hr
 
+# ── 语言选择 ──────────────────────────────────────────────
+VN_LANG_CONFIG="$HOME/.voice_notify_lang"
+if [ -f "$VN_LANG_CONFIG" ]; then
+  CURRENT_LANG=$(cat "$VN_LANG_CONFIG")
+  info "当前语言 / Current language: $CURRENT_LANG"
+else
+  CURRENT_LANG=""
+fi
+
+if [[ "$2" == "--lang=en" ]]; then
+  echo "en" > "$VN_LANG_CONFIG"
+  ok "Language set to English"
+elif [[ "$2" == "--lang=zh" ]]; then
+  echo "zh" > "$VN_LANG_CONFIG"
+  ok "语言已设置为中文"
+elif [ -z "$CURRENT_LANG" ]; then
+  echo ""
+  echo -e "  ${BOLD}Choose language / 选择语言：${RESET}"
+  echo -e "    ${GREEN}1${RESET}) 中文（默认）"
+  echo -e "    ${GREEN}2${RESET}) English"
+  echo ""
+  read -r -p "  Enter 1 or 2 [1]: " LANG_CHOICE
+  case "$LANG_CHOICE" in
+    2|en|EN|english|English)
+      echo "en" > "$VN_LANG_CONFIG"
+      ok "Language set to English"
+      ;;
+    *)
+      echo "zh" > "$VN_LANG_CONFIG"
+      ok "语言已设置为中文"
+      ;;
+  esac
+fi
+
 # 检查是否已安装
 if grep -q "voice-notify" "$SETTINGS" 2>/dev/null; then
   info "检测到已安装的 voice-notify hooks，将更新为最新版本"

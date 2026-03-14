@@ -54,6 +54,11 @@ if [[ "$(uname)" != "Darwin" ]] || ! command -v say &>/dev/null; then
   exit 0
 fi
 
+# ── 读取语言配置 ─────────────────────────────────────────────
+VN_LANG_CONFIG="$HOME/.voice_notify_lang"
+VN_LANG="zh"
+[ -f "$VN_LANG_CONFIG" ] && VN_LANG=$(cat "$VN_LANG_CONFIG")
+
 # ── 读取全局模式配置（vn.sh 写入）────────────────────────────
 VN_CONFIG="$HOME/.voice_notify_config"
 VN_MODE="normal"
@@ -96,33 +101,63 @@ fi
 # ── 情感预设：rate + 语气词池 ─────────────────────────────────
 apply_preset() {
   local p="$1"
-  case "$p" in
-    celebrate)
-      PRESET_RATE=200
-      PRE_POOL=("哇！" "太棒了！" "" "冲！" "")
-      POST_POOL=("漂亮！" "干得好！" "" "冲！" "")
-      ;;
-    comfort)
-      PRESET_RATE=165
-      PRE_POOL=("嗯..." "没事的，" "慢慢来，" "" "")
-      POST_POOL=("" "会好的。" "" "别担心。" "")
-      ;;
-    encourage)
-      PRESET_RATE=210
-      PRE_POOL=("" "来，" "" "好，" "")
-      POST_POOL=("加油！" "冲冲冲！" "继续！" "稳住！" "")
-      ;;
-    alert)
-      PRESET_RATE=210
-      PRE_POOL=("注意，" "警告！" "注意！" "")
-      POST_POOL=("" "" "" "")
-      ;;
-    *)  # normal
-      PRESET_RATE=200
-      PRE_POOL=("" "" "" "好，" "")
-      POST_POOL=("" "" "" "" "")
-      ;;
-  esac
+  if [ "$VN_LANG" = "en" ]; then
+    case "$p" in
+      celebrate)
+        PRESET_RATE=200
+        PRE_POOL=("Wow! " "Awesome! " "" "Yes! " "")
+        POST_POOL=(" Nice!" " Well done!" "" " Let's go!" "")
+        ;;
+      comfort)
+        PRESET_RATE=165
+        PRE_POOL=("Hmm... " "It's okay, " "Take it easy, " "" "")
+        POST_POOL=("" " It'll be fine." "" " No worries." "")
+        ;;
+      encourage)
+        PRESET_RATE=210
+        PRE_POOL=("" "Alright, " "" "Okay, " "")
+        POST_POOL=(" Keep going!" " Push through!" " Almost there!" " Stay strong!" "")
+        ;;
+      alert)
+        PRESET_RATE=210
+        PRE_POOL=("Attention, " "Warning! " "Heads up! " "")
+        POST_POOL=("" "" "" "")
+        ;;
+      *)
+        PRESET_RATE=200
+        PRE_POOL=("" "" "" "Okay, " "")
+        POST_POOL=("" "" "" "" "")
+        ;;
+    esac
+  else
+    case "$p" in
+      celebrate)
+        PRESET_RATE=200
+        PRE_POOL=("哇！" "太棒了！" "" "冲！" "")
+        POST_POOL=("漂亮！" "干得好！" "" "冲！" "")
+        ;;
+      comfort)
+        PRESET_RATE=165
+        PRE_POOL=("嗯..." "没事的，" "慢慢来，" "" "")
+        POST_POOL=("" "会好的。" "" "别担心。" "")
+        ;;
+      encourage)
+        PRESET_RATE=210
+        PRE_POOL=("" "来，" "" "好，" "")
+        POST_POOL=("加油！" "冲冲冲！" "继续！" "稳住！" "")
+        ;;
+      alert)
+        PRESET_RATE=210
+        PRE_POOL=("注意，" "警告！" "注意！" "")
+        POST_POOL=("" "" "" "")
+        ;;
+      *)
+        PRESET_RATE=200
+        PRE_POOL=("" "" "" "好，" "")
+        POST_POOL=("" "" "" "" "")
+        ;;
+    esac
+  fi
 }
 
 apply_preset "$PRESET"
@@ -173,12 +208,22 @@ fi
 TIME_PREFIX=""
 if [ "$TIME_AWARE" = true ]; then
   HOUR=$(date +%H | sed 's/^0//')
-  if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then
-    TIME_PREFIX="早啊，"
-  elif [ "$HOUR" -ge 22 ] || [ "$HOUR" -lt 5  ]; then
-    TIME_PREFIX="这么晚啊，"
-  elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then
-    TIME_PREFIX="傍晚了，"
+  if [ "$VN_LANG" = "en" ]; then
+    if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then
+      TIME_PREFIX="Good morning, "
+    elif [ "$HOUR" -ge 22 ] || [ "$HOUR" -lt 5  ]; then
+      TIME_PREFIX="It's late, "
+    elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then
+      TIME_PREFIX="Good evening, "
+    fi
+  else
+    if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then
+      TIME_PREFIX="早啊，"
+    elif [ "$HOUR" -ge 22 ] || [ "$HOUR" -lt 5  ]; then
+      TIME_PREFIX="这么晚啊，"
+    elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then
+      TIME_PREFIX="傍晚了，"
+    fi
   fi
 fi
 
@@ -197,11 +242,19 @@ voice_available() {
 }
 
 pick_best_voice() {
-  local preferred=("Lili (Premium)" "Yue (Premium)" "Lili (Enhanced)" "Meijia (Enhanced)" "Tingting")
-  for v in "${preferred[@]}"; do
-    voice_available "$v" && echo "$v" && return
-  done
-  echo "Tingting"
+  if [ "$VN_LANG" = "en" ]; then
+    local preferred=("Samantha (Enhanced)" "Samantha" "Karen (Enhanced)" "Karen" "Alex")
+    for v in "${preferred[@]}"; do
+      voice_available "$v" && echo "$v" && return
+    done
+    echo "Samantha"
+  else
+    local preferred=("Lili (Premium)" "Yue (Premium)" "Lili (Enhanced)" "Meijia (Enhanced)" "Tingting")
+    for v in "${preferred[@]}"; do
+      voice_available "$v" && echo "$v" && return
+    done
+    echo "Tingting"
+  fi
 }
 
 if [ -n "$VOICE_ARG" ] && voice_available "$VOICE_ARG"; then
