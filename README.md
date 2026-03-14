@@ -39,8 +39,12 @@
 ### 第一步：安装 skill
 
 ```bash
-# Claude Code 中执行
-/skills add voice-notify
+git clone https://github.com/Jayden72Huang/cotify.git ~/.claude/skills/voice-notify
+```
+
+或在 Claude Code 中直接粘贴：
+```
+帮我安装 Cotify 语音提醒 skill：https://github.com/Jayden72Huang/cotify
 ```
 
 ### 第二步：下载推荐语音（首次必做）

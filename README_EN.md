@@ -39,8 +39,12 @@ It's late, all tasks completed                    ← Late-night time awareness
 ### Step 1: Install the Skill
 
 ```bash
-# In Claude Code
-/skills add voice-notify
+git clone https://github.com/Jayden72Huang/cotify.git ~/.claude/skills/voice-notify
+```
+
+Or paste this prompt in Claude Code:
+```
+Install Cotify voice notify skill: https://github.com/Jayden72Huang/cotify
 ```
 
 ### Step 2: Download Recommended Voice (First Time)
