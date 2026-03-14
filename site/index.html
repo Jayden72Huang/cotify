@@ -360,16 +360,17 @@ footer{ padding: 60px 24px 40px; text-align: center; font-size: 14px; color: var
 
     <div class="cta-row">
       <div class="hero-copy-box" onclick="copyInstall()">
-        <span style="opacity:0.4">$</span>
-        <span style="font-size:12px">git clone https://github.com/Jayden72Huang/cotify.git ~/.claude/skills/voice-notify</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span style="opacity:0.4;font-size:13px">📋</span>
+        <span class="lang-zh" style="font-size:13px">帮我安装 Cotify 语音提醒 skill：https://github.com/Jayden72Huang/cotify</span>
+        <span class="lang-en" style="font-size:13px">Install Cotify voice notify skill: https://github.com/Jayden72Huang/cotify</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4;flex-shrink:0"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         <div id="copy-tip" class="copy-status"><span class="lang-zh">已复制！</span><span class="lang-en">Copied!</span></div>
       </div>
       <a href="#demo" class="btn btn-primary"><span class="lang-zh">在线体验</span><span class="lang-en">Try Online</span></a>
       <a href="https://github.com/Jayden72Huang/cotify" class="btn btn-secondary" target="_blank"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px;margin-right:6px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
     </div>
-    <p class="lang-zh" style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.8;">在终端粘贴上方命令即可一键安装到 Claude Code Skills 目录</p>
-    <p class="lang-en" style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.8;">Paste the command above in your terminal to install into Claude Code Skills directory</p>
+    <p class="lang-zh" style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.8;">复制上方 Prompt 粘贴到 Claude Code 中，让 Claude 帮你自动完成安装和配置</p>
+    <p class="lang-en" style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.8;">Copy the prompt above and paste it into Claude Code — Claude will handle installation and setup for you</p>
   </div>
 </section>
 
@@ -466,26 +467,26 @@ footer{ padding: 60px 24px 40px; text-align: center; font-size: 14px; color: var
   <div class="how-steps">
     <div class="how-step">
       <div class="step-num">1</div>
-      <h3 class="lang-zh">安装 Skill</h3>
-      <h3 class="lang-en">Install Skill</h3>
-      <p class="lang-zh">在终端一行命令即可安装，零依赖，基于 macOS 原生语音引擎。</p>
-      <p class="lang-en">One command in terminal. Zero dependencies, powered by macOS native TTS.</p>
-      <code class="copyable" onclick="copyCode(this)" style="font-size:11px">git clone https://github.com/Jayden72Huang/cotify.git ~/.claude/skills/voice-notify</code>
+      <h3 class="lang-zh">复制 Prompt</h3>
+      <h3 class="lang-en">Copy Prompt</h3>
+      <p class="lang-zh">点击上方安装框复制 Prompt，零依赖，基于 macOS 原生语音引擎。</p>
+      <p class="lang-en">Click the install box above to copy the prompt. Zero dependencies, powered by macOS native TTS.</p>
+      <code class="copyable" onclick="copyCode(this)" style="font-size:11px"><span class="lang-zh">帮我安装 Cotify 语音提醒 skill：https://github.com/Jayden72Huang/cotify</span><span class="lang-en">Install Cotify voice notify skill: https://github.com/Jayden72Huang/cotify</span></code>
     </div>
     <div class="how-step">
       <div class="step-num">2</div>
-      <h3 class="lang-zh">首次配置</h3>
-      <h3 class="lang-en">Quick Setup</h3>
-      <p class="lang-zh">运行 setup 脚本，自动检测环境并下载高质量中文语音（莉莉 Premium）。</p>
-      <p class="lang-en">Run setup script to detect environment and download premium Chinese voice (Lili Premium).</p>
-      <code class="copyable" onclick="copyCode(this)" style="font-size:12px">bash ~/.claude/skills/voice-notify/scripts/setup.sh</code>
+      <h3 class="lang-zh">粘贴到 Claude Code</h3>
+      <h3 class="lang-en">Paste in Claude Code</h3>
+      <p class="lang-zh">在 Claude Code 中粘贴 Prompt，Claude 会自动完成克隆、配置 Hooks 和环境检测。</p>
+      <p class="lang-en">Paste the prompt in Claude Code. Claude will handle cloning, Hooks setup, and environment detection.</p>
+      <code style="font-size:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 14px;display:block;color:var(--text-dim)"><span class="lang-zh">Claude 自动执行 → 安装 + 配置 + 语音检测 ✅</span><span class="lang-en">Claude auto-runs → Install + Setup + Voice check ✅</span></code>
     </div>
     <div class="how-step">
       <div class="step-num">3</div>
       <h3 class="lang-zh">开始编码</h3>
       <h3 class="lang-en">Start Coding</h3>
-      <p class="lang-zh">Agent 报到、构建通过、错误告警——全部自动语音播报，你只需专注写代码。</p>
-      <p class="lang-en">Agent check-in, build pass, error alerts — all voiced automatically. Just focus on coding.</p>
+      <p class="lang-zh">重启 Claude Code，Agent 报到、任务完成、错误告警——全部自动语音播报，你只需专注写代码。</p>
+      <p class="lang-en">Restart Claude Code. Agent check-in, task completion, error alerts — all voiced automatically. Just focus on coding.</p>
       <code class="copyable" onclick="copyCode(this)">vn normal</code>
     </div>
   </div>
@@ -870,7 +871,7 @@ function playClickSound() {
 
 function copyInstall() { 
   playClickSound();
-  navigator.clipboard.writeText('git clone https://github.com/Jayden72Huang/cotify.git ~/.claude/skills/voice-notify'); 
+  navigator.clipboard.writeText(currentLang === 'en' ? 'Install Cotify voice notify skill: https://github.com/Jayden72Huang/cotify' : '帮我安装 Cotify 语音提醒 skill：https://github.com/Jayden72Huang/cotify'); 
   const tip = document.getElementById('copy-tip');
   tip.classList.add('show');
   setTimeout(() => tip.classList.remove('show'), 2000);
