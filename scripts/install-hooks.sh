@@ -140,11 +140,11 @@ jq --arg hooks_dir "$HOOKS_DIR" '
     }]
   ) |
 
-  # Notification（替换原有的简单 afplay）
+  # Notification（仅在工具授权确认时触发，避免 idle_prompt 等误触发）
   .hooks.Notification = (
     [(.hooks.Notification // [])[] | select(.hooks | all(.command | test("voice-notify") | not))] +
     [{
-      "matcher": "",
+      "matcher": "permission_prompt",
       "hooks": [{
         "type": "command",
         "command": ("bash " + $hooks_dir + "/on-notification.sh")
