@@ -451,6 +451,7 @@ footer{ padding: 60px 24px 40px; text-align: center; font-size: 14px; color: var
       <button class="demo-btn" onclick="demo('error')">🤫 <span class="lang-zh">错误静默</span><span class="lang-en">Silent Error</span></button>
       <button class="demo-btn" onclick="demo('progress')">📈 <span class="lang-zh">进度播报</span><span class="lang-en">Progress</span></button>
       <button class="demo-btn" onclick="demo('latenight')">🌙 <span class="lang-zh">深夜关怀</span><span class="lang-en">Late Night</span></button>
+      <button class="demo-btn" style="width:100%;background:linear-gradient(135deg,var(--purple),var(--cyan));font-weight:700;" onclick="demo('fullflow')">🎬 <span class="lang-zh">全流程演示</span><span class="lang-en">Full Workflow</span></button>
     </div>
   </div>
 </section>
@@ -736,6 +737,120 @@ async function demo(type) {
       '',
       green('&gt; ') + '🎙 "' + msg + '"',
     ], () => speak(msg, currentLang));
+  } else if (type === 'fullflow') {
+    // Stage 1: Session Start
+    const s1Lines = [
+      cyan('━━━ Stage 1/5: Session Start ━━━'),
+      dim('# SessionStart hook fires'),
+      purple('$ bash sfx.sh start'),
+      dim('♪ [Blow sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Session started, ready to go' : '会话已启动，准备就绪') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=normal --time-aware'),
+      '',
+      green('&gt; ') + '🎙 "' + (isEn ? 'Good morning, session started, ready to go!' : '早啊，会话已启动，准备就绪！') + '"',
+    ];
+    const s1Msg = isEn ? 'Good morning, session started, ready to go!' : '早啊，会话已启动，准备就绪！';
+
+    // Stage 2: Agent Check-in
+    const s2Lines = [
+      '',
+      cyan('━━━ Stage 2/5: Agent Check-in ━━━'),
+      dim('# Agents join the team session'),
+      purple('$ bash sfx.sh checkin'),
+      dim('♪ [Morse sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Boss, Developer online!' : '老板，开发者已上线，向您报到！') + '" --queue'),
+      purple('$ bash sfx.sh checkin'),
+      purple('$ bash voice.sh "' + (isEn ? 'Boss, QA online!' : '老板，测试已上线，向您报到！') + '" --queue'),
+      '',
+      purple('$ bash sfx.sh celebrate'),
+      purple('$ bash voice.sh "' + (isEn ? 'All agents ready!' : '全员报到完毕，等待老板指令！') + '" --preset=celebrate'),
+      green('&gt; ') + '🎙 "' + (isEn ? 'Team ready, awaiting orders!' : '全员报到完毕，等待老板指令！') + '"',
+    ];
+    const s2Msg = isEn ? 'Team ready, awaiting your orders!' : '全员报到完毕，等待老板指令！';
+
+    // Stage 3: Error — silent
+    const s3Lines = [
+      '',
+      cyan('━━━ Stage 3/5: Error Handling (Silent) ━━━'),
+      dim('# Tool execution failed — agent still running'),
+      red('✗ PostToolUseFailure: npm install failed'),
+      '',
+      dim('# on-error.sh: silently count, NO voice'),
+      dim('$ echo $((0 + 1)) &gt; /tmp/voice_notify_error_count'),
+      '',
+      red('✗ PostToolUseFailure: TypeScript compile error'),
+      dim('$ echo $((1 + 1)) &gt; /tmp/voice_notify_error_count'),
+      '',
+      dim(isEn ? '# 🔇 No sound — agent fixes errors itself' : '# 🔇 完全静默 — Agent 自行修复错误'),
+      green('✓ ') + dim(isEn ? 'Errors recorded: 2. Agent continues working...' : '错误已记录: 2。Agent 继续工作...'),
+    ];
+
+    // Stage 4: Tool Permission — loud alert
+    const s4Lines = [
+      '',
+      cyan('━━━ Stage 4/5: Tool Permission Alert ━━━'),
+      dim('# Agent needs to merge PR — tool permission required'),
+      '',
+      yellow('┌─ Tool use ─────────────────────────────┐'),
+      yellow('│ github — Merge pull request (MCP)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('│ Do you want to proceed?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('│ &gt; 1. Yes&nbsp;&nbsp;2. Yes, don\'t ask&nbsp;&nbsp;3. No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│'),
+      yellow('└─────────────────────────────────────────┘'),
+      '',
+      dim('# ⚠️ Notification hook fires — LOUD alert!'),
+      red('$ bash sfx.sh warning &amp;&amp; sleep 0.5 &amp;&amp; bash sfx.sh warning'),
+      dim('♪ [Basso sound] × 2'),
+      red('$ bash voice.sh "' + (isEn ? 'Tool permission needed!' : '老板，有工具需要授权，请过来确认') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=alert --no-filler'),
+      '',
+      red('&gt; ') + '🔔 "' + (isEn ? 'Hey! Tool permission needed, please approve!' : '老板，有工具需要授权，请过来确认！') + '"',
+    ];
+    const s4Msg = isEn ? 'Hey! Tool permission needed, please approve!' : '老板，有工具需要授权，请过来确认！';
+
+    // Stage 5: Task Complete with summary + error count
+    const s5Lines = [
+      '',
+      cyan('━━━ Stage 5/5: Task Complete ━━━'),
+      dim('# Stop hook fires — on-stop.sh reads summary + errors'),
+      green('$ cat /tmp/voice_notify_summary'),
+      dim('&nbsp;&nbsp;"' + (isEn ? 'Login page refactoring complete' : '已完成登录页面重构') + '"'),
+      green('$ cat /tmp/voice_notify_error_count'),
+      dim('&nbsp;&nbsp;2'),
+      '',
+      purple('$ bash sfx.sh success'),
+      dim('♪ [Glass sound]'),
+      purple('$ bash voice.sh "' + (isEn ? 'Login page refactoring complete. 2 errors resolved' : '已完成登录页面重构。过程中出现2个错误，已解决') + '" \\'),
+      dim('&nbsp;&nbsp;&nbsp;&nbsp;--preset=celebrate --time-aware'),
+      '',
+      green('&gt; ') + '🎙 "' + (isEn ? 'Login page refactoring complete. 2 errors occurred and resolved.' : '太棒了！已完成登录页面重构。过程中出现2个错误，已解决。') + '"',
+      '',
+      green('━━━ ✅ ' + (isEn ? 'Full workflow complete!' : '全流程演示完毕！') + ' ━━━'),
+    ];
+    const s5Msg = isEn ? 'Awesome! Login page refactoring complete. 2 errors occurred and resolved.' : '太棒了！已完成登录页面重构。过程中出现2个错误，已解决。';
+
+    // Chain all stages with delays and voice
+    typeLines(s1Lines, () => {
+      speak(s1Msg, currentLang);
+      setTimeout(() => {
+        typeLines(s2Lines, () => {
+          speak(s2Msg, currentLang);
+          setTimeout(() => {
+            typeLines(s3Lines, () => {
+              setTimeout(() => {
+                typeLines(s4Lines, () => {
+                  speak(s4Msg, currentLang);
+                  setTimeout(() => {
+                    typeLines(s5Lines, () => {
+                      speak(s5Msg, currentLang);
+                    });
+                  }, 3000);
+                });
+              }, 2000);
+            });
+          }, 3000);
+        });
+      }, 3000);
+    });
   }
 }
 function playClickSound() {
