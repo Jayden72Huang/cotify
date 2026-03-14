@@ -1,10 +1,20 @@
-# 🔔 voice-notify
+<div align="center">
 
-> 让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。
+# 🔔 Cotify
+
+**让 Claude Code 开口说话——任务完成、出错、Agent 报到，全程语音播报，保持开发心流。**
 
 [![macOS](https://img.shields.io/badge/macOS-12%2B-blue?logo=apple)](https://www.apple.com/macos/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[快速开始](#快速开始) · [English](README_EN.md) · [核心特性](#核心特性) · [Agent 团队](#agent-团队场景) · [官网](https://cotify-app.vercel.app)
+
+<a href="https://cotify-app.vercel.app">
+  <img src="assets/preview.png" alt="Cotify Landing Page" width="100%" />
+</a>
+
+</div>
 
 ---
 
@@ -198,7 +208,9 @@ Flags:
 ```
 voice-notify/
 ├── SKILL.md              # Claude Code skill 配置
-├── README.md             # 本文件
+├── README.md             # 中文文档
+├── README_EN.md          # English docs
+├── LICENSE               # MIT License
 └── scripts/
     ├── voice.sh          # TTS 播报核心脚本
     ├── sfx.sh            # 系统音效脚本
