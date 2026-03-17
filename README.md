@@ -175,7 +175,21 @@ vn status   # 查看当前模式
 
 支持缩写：`vn q` / `vn n` / `vn m` / `vn h` / `vn s`
 
-> 运行 `bash setup.sh` 会自动安装 `vn` 别名到你的 shell 配置中。
+### 快速静音（vm 命令）
+
+不想细调模式？`vm` 是一键静音/恢复开关：
+
+```bash
+vm mute      # 🔇 静音（自动记住之前的模式）
+vm unmute    # 🔊 恢复到静音前的模式
+vm status    # 查看当前状态
+```
+
+支持缩写：`vm m` / `vm u` / `vm s`
+
+> `vn` = 细粒度切换（mute/quiet/normal/hype），`vm` = 一键 mute/unmute 快捷操作。
+>
+> 运行 `bash setup.sh` 会自动安装 `vn` 和 `vm` 别名到你的 shell 配置中。
 
 ---
 
@@ -219,6 +233,7 @@ voice-notify/
     ├── voice.sh          # TTS 播报核心脚本
     ├── sfx.sh            # 系统音效脚本
     ├── vn.sh             # 模式快捷切换
+    ├── vm.sh             # 快速静音开关
     ├── setup.sh          # 首次环境检测与引导
     └── demo.sh           # 功能演示
 ```

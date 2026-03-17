@@ -204,26 +204,126 @@ else
   POST_FILLER=$(pick_random "${POST_POOL[@]}")
 fi
 
-# ── 时段感知前缀 ──────────────────────────────────────────────
+# ── 智能时段感知（基于工作时长 + 时段 + 触发频率）──────────────
+# 状态文件：
+#   /tmp/voice_notify_session_start  — 会话首次触发时间戳
+#   /tmp/voice_notify_period_seen    — 已播报过的时段标记（morning/lunch/evening/night/latenight）
+#   /tmp/voice_notify_care_last      — 上次关怀提醒的时间戳（深夜每小时最多一次）
 TIME_PREFIX=""
 if [ "$TIME_AWARE" = true ]; then
+  NOW_TS=$(date +%s)
   HOUR=$(date +%H | sed 's/^0//')
+
+  SESSION_FILE="/tmp/voice_notify_session_start"
+  PERIOD_FILE="/tmp/voice_notify_period_seen"
+  CARE_LAST_FILE="/tmp/voice_notify_care_last"
+
+  # 记录会话起始时间（首次触发时写入，后续不覆盖）
+  if [ ! -f "$SESSION_FILE" ]; then
+    echo "$NOW_TS" > "$SESSION_FILE"
+  fi
+  SESSION_START=$(cat "$SESSION_FILE" 2>/dev/null || echo "$NOW_TS")
+  WORK_MINUTES=$(( (NOW_TS - SESSION_START) / 60 ))
+
+  # 判断当前时段
+  if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then PERIOD="morning"
+  elif [ "$HOUR" -ge 12 ] && [ "$HOUR" -lt 14 ]; then PERIOD="lunch"
+  elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then PERIOD="evening"
+  elif [ "$HOUR" -ge 22 ]; then                        PERIOD="night"
+  elif [ "$HOUR" -lt 5  ]; then                         PERIOD="latenight"
+  else                                                   PERIOD="daytime"
+  fi
+
+  # 检查该时段是否已播报过
+  PERIOD_SEEN=false
+  if [ -f "$PERIOD_FILE" ]; then
+    grep -qx "$PERIOD" "$PERIOD_FILE" 2>/dev/null && PERIOD_SEEN=true
+  fi
+
+  # 上次关怀距今多久
+  CARE_LAST=0
+  [ -f "$CARE_LAST_FILE" ] && CARE_LAST=$(cat "$CARE_LAST_FILE" 2>/dev/null || echo 0)
+  CARE_GAP_MIN=$(( (NOW_TS - CARE_LAST) / 60 ))
+
+  # ── 决策逻辑 ──────────────────────────────────────────────
   if [ "$VN_LANG" = "en" ]; then
-    if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then
-      TIME_PREFIX="Good morning, "
-    elif [ "$HOUR" -ge 22 ] || [ "$HOUR" -lt 5  ]; then
-      TIME_PREFIX="It's late, "
-    elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then
-      TIME_PREFIX="Good evening, "
+    # ── English ──
+    if [ "$PERIOD_SEEN" = false ]; then
+      # 首次进入该时段 → 时段问候（仅一次）
+      case "$PERIOD" in
+        morning)    TIME_PREFIX="Good morning! " ;;
+        lunch)      TIME_PREFIX="Lunchtime, don't forget to eat! " ;;
+        evening)    TIME_PREFIX="Good evening, " ;;
+        night)      TIME_PREFIX="Getting late, take it easy. " ;;
+        latenight)  TIME_PREFIX="It's past midnight, please rest soon. " ;;
+      esac
+      echo "$PERIOD" >> "$PERIOD_FILE"
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$PERIOD" = "latenight" ] && [ "$CARE_GAP_MIN" -ge 60 ]; then
+      # 凌晨每小时提醒一次
+      if [ "$HOUR" -le 1 ]; then
+        TIME_PREFIX="It's really late now, wrap up and get some sleep. "
+      else
+        TIME_PREFIX="Still up at ${HOUR} AM? Please rest. "
+      fi
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$WORK_MINUTES" -ge 240 ] && [ "$CARE_GAP_MIN" -ge 60 ]; then
+      # 连续工作 4h+，每小时提醒
+      WH=$(( WORK_MINUTES / 60 ))
+      TIME_PREFIX="You've been working ${WH} hours, take a break! "
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$WORK_MINUTES" -ge 120 ] && [ "$CARE_GAP_MIN" -ge 120 ]; then
+      # 连续工作 2h+，每2小时提醒
+      TIME_PREFIX="Good work so far, stretch a bit. "
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
     fi
+    # 其他情况：TIME_PREFIX 保持空，不啰嗦
+
   else
-    if   [ "$HOUR" -ge 5  ] && [ "$HOUR" -lt 10 ]; then
-      TIME_PREFIX="早啊，"
-    elif [ "$HOUR" -ge 22 ] || [ "$HOUR" -lt 5  ]; then
-      TIME_PREFIX="这么晚啊，"
-    elif [ "$HOUR" -ge 18 ] && [ "$HOUR" -lt 22 ]; then
-      TIME_PREFIX="傍晚了，"
+    # ── 中文 ──
+    if [ "$PERIOD_SEEN" = false ]; then
+      # 首次进入该时段 → 时段问候（仅一次）
+      case "$PERIOD" in
+        morning)    TIME_PREFIX="早上好老板，新的一天，" ;;
+        lunch)      TIME_PREFIX="中午了，记得吃饭哦，" ;;
+        evening)    TIME_PREFIX="晚上好老板，" ;;
+        night)      TIME_PREFIX="夜深了，辛苦了老板，" ;;
+        latenight)  TIME_PREFIX="都过了零点了，忙完早点睡，" ;;
+      esac
+      echo "$PERIOD" >> "$PERIOD_FILE"
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$PERIOD" = "latenight" ] && [ "$CARE_GAP_MIN" -ge 60 ]; then
+      # 凌晨每小时提醒一次，语气递进
+      if [ "$HOUR" -le 1 ]; then
+        TIME_PREFIX="老板，凌晨了，身体最重要，忙完赶紧休息，"
+      elif [ "$HOUR" -le 3 ]; then
+        TIME_PREFIX="都凌晨${HOUR}点了，真的该睡了老板，"
+      else
+        TIME_PREFIX="老板，快天亮了，先休息吧，"
+      fi
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$PERIOD" = "night" ] && [ "$CARE_GAP_MIN" -ge 60 ] && [ "$WORK_MINUTES" -ge 180 ]; then
+      # 晚间工作超3小时，每小时温和提醒
+      TIME_PREFIX="连续忙了好一阵了，注意休息，"
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$WORK_MINUTES" -ge 240 ] && [ "$CARE_GAP_MIN" -ge 60 ]; then
+      # 连续工作 4h+，每小时提醒
+      WH=$(( WORK_MINUTES / 60 ))
+      TIME_PREFIX="老板，已经连续工作${WH}个小时了，起来活动一下吧，"
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
+
+    elif [ "$WORK_MINUTES" -ge 120 ] && [ "$CARE_GAP_MIN" -ge 120 ]; then
+      # 连续工作 2h+，每2小时温和提醒
+      TIME_PREFIX="辛苦了，适当休息一下，"
+      echo "$NOW_TS" > "$CARE_LAST_FILE"
     fi
+    # 其他情况：TIME_PREFIX 保持空，不啰嗦
   fi
 fi
 

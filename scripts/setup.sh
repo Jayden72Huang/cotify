@@ -142,40 +142,52 @@ if [[ "$AUTO" == false ]]; then
   fi
 fi
 
-# ── 6. 安装 vn 快捷命令 ──────────────────────────────────
+# ── 6. 安装 vn / vm 快捷命令 ─────────────────────────────
 echo ""
 hr
-echo -e "${BOLD}  快捷命令 vn${RESET}"
+echo -e "${BOLD}  快捷命令 vn / vm${RESET}"
 hr
 
-VN_SCRIPT="$(cd "$(dirname "$0")" && pwd)/vn.sh"
-ALIAS_LINE="alias vn='bash \"$VN_SCRIPT\"'"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+VN_ALIAS="alias vn='bash \"$SCRIPTS_DIR/vn.sh\"'"
+VM_ALIAS="alias vm='bash \"$SCRIPTS_DIR/vm.sh\"'"
 
 install_alias() {
   local rc="$1"
-  if [ -f "$rc" ] && grep -qF "vn.sh" "$rc"; then
-    ok "已存在于 $rc"
+  local alias_line="$2"
+  local script_name="$3"
+  if [ -f "$rc" ] && grep -qF "$script_name" "$rc"; then
+    ok "$script_name 已存在于 $rc"
     return 0
   fi
   echo "" >> "$rc"
-  echo "# voice-notify 模式切换" >> "$rc"
-  echo "$ALIAS_LINE" >> "$rc"
-  ok "已添加到 $rc"
+  echo "# voice-notify: $script_name" >> "$rc"
+  echo "$alias_line" >> "$rc"
+  ok "$script_name 已添加到 $rc"
   return 0
 }
 
 # 检测 shell 并安装
+RC_FILE=""
 if [[ "$SHELL" == *zsh* ]] || [ -f "$HOME/.zshrc" ]; then
-  install_alias "$HOME/.zshrc"
+  RC_FILE="$HOME/.zshrc"
 elif [[ "$SHELL" == *bash* ]] || [ -f "$HOME/.bashrc" ]; then
-  install_alias "$HOME/.bashrc"
+  RC_FILE="$HOME/.bashrc"
+fi
+
+if [ -n "$RC_FILE" ]; then
+  install_alias "$RC_FILE" "$VN_ALIAS" "vn.sh"
+  install_alias "$RC_FILE" "$VM_ALIAS" "vm.sh"
 else
   warn "未识别 shell，请手动添加到 shell 配置文件："
-  echo "  $ALIAS_LINE"
+  echo "  $VN_ALIAS"
+  echo "  $VM_ALIAS"
 fi
 
 echo ""
-info "安装后新开终端即可使用：vn quiet / vn normal / vn mute / vn hype"
+info "安装后新开终端即可使用："
+info "  vn quiet / vn normal / vn mute / vn hype  （模式切换）"
+info "  vm mute / vm unmute                        （快速静音开关）"
 
 # ── 7. 汇总 ───────────────────────────────────────────────
 echo ""

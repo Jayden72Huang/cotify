@@ -175,7 +175,21 @@ vn status   # Check current mode
 
 Shortcuts: `vn q` / `vn n` / `vn m` / `vn h` / `vn s`
 
-> Running `bash setup.sh` will auto-install the `vn` alias to your shell config.
+### Quick Mute (vm command)
+
+Don't want to fine-tune modes? `vm` is a one-key mute/unmute toggle:
+
+```bash
+vm mute      # 🔇 Mute (remembers current mode)
+vm unmute    # 🔊 Restore previous mode
+vm status    # Check current state
+```
+
+Shortcuts: `vm m` / `vm u` / `vm s`
+
+> `vn` = fine-grained switching (mute/quiet/normal/hype), `vm` = quick mute/unmute toggle.
+>
+> Running `bash setup.sh` will auto-install both `vn` and `vm` aliases to your shell config.
 
 ---
 
@@ -218,6 +232,7 @@ voice-notify/
     ├── voice.sh          # Core TTS script
     ├── sfx.sh            # System sound effects
     ├── vn.sh             # Quick mode switching
+    ├── vm.sh             # Quick mute toggle
     ├── setup.sh          # First-time setup & detection
     └── demo.sh           # Feature demo
 ```
